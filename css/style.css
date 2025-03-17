@@ -1,0 +1,303 @@
+/* *{
+    padding: 0;
+    margin: 0;
+} */
+
+/* I should do some cleanup of the css, and last check in on the theme colors */
+
+body{
+    background-color: #18230F;
+}
+header{
+    background-color: #27391C;
+}
+.card-body{
+    background-color: #255F38;
+    color: #e6e6e6;
+
+}
+.card-body a{
+    color: #e6e6e6;
+    transition: 150ms;
+}
+.card-body a:hover{
+    color:#27391C
+}
+.search-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-shrink: 1;
+}
+h1{
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 10px;
+    color: #e6e6e6;
+}
+.navbar{
+    display:block;
+}
+.navbar ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.navbar ul li{
+    display: inline;
+}
+.navbar ul li a {
+    color: #e6e6e6;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.navbar ul li a:hover {
+    background-color: #255F38;
+}
+/*
+TODO:
+    Need to apply some spacing between header and feed, then feed and form
+    Need to adjust lengths of feed for when i apply the spacing
+*/
+/* main{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+} */
+.feed , .article-form{
+    background-color: #27391C;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#articles {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.search-container input[type="search"] {
+    background-color: #255F38;
+    border: 1px solid #27391C;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+.search-container input[type="search"]::placeholder {
+    color:#e6e6e6;
+    
+}
+.search-container select {
+    background-color: #255F38;
+    color: #e6e6e6;
+    border: 1px solid #27391C;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: black;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.pagination .page-link {
+    background-color: #255F38;
+    border-color: #27391C;
+    color: #e6e6e6;
+}
+.search button {
+    background-color: #255F38;
+    border-color: #27391C;
+    color: #e6e6e6;
+}
+.pagination .page-link:hover {
+    background-color: #319151;
+}
+
+.pagination .page-link.active {
+    background-color: #1F7D53;
+    border-color: #255F38;
+}
+
+.btn-primary {
+    background-color: #255F38;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:active {
+    background-color: #1F7D53 !important;
+}
+
+.btn-primary:hover {
+    background-color: #319151;
+}
+
+@media (max-width: 990px) {
+    .search-container{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+    .search-container input[type="search"]{
+        width: 90%;
+    }
+    .fa-search{
+        width: 4vw;
+    }
+    .search{
+        grid-area: 1 / 1 / 1 / 4;
+    }
+    .btn-primary{
+        grid-area: 2 / 1 / 2 / 2;
+    }
+}
+
+@media (max-width: 480px){
+    .search-container{
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        
+    }
+    .search{
+        grid-column: 2 / 4;
+    }
+    .fa-search{
+        width: 4vw;
+    }
+    .search{
+        grid-area: 1 / 1 / 1 / 4;
+    }
+    .btn-primary{
+        grid-area: 3 / 1 / 3 / -1;
+    }
+    .navbar ul li a{
+        font-size: x-small;
+    }
+}
+
+@media (max-width: 390px){
+    .search{
+        display:flex;    
+    }
+    .navbar ul li a{
+        font-size: xx-small;
+    }
+
+}
+
+/* article form */
+
+.article-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-actions{
+    display: flex;
+    justify-content: space-between;
+}
+
+.article-form {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+/* .title-category {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+} */
+
+.article-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.article-form input[type="text"],
+.article-form select,
+.article-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #255F38;
+    border: 1px solid #444;
+    border-radius: 4px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.article-form input[type="text"]::placeholder,
+.article-form select,
+.article-form textarea::placeholder{
+    color: #e6e6e6;
+}
+
+.article-form input[type="text"]:focus,
+.article-form select:focus,
+.article-form textarea:focus {
+    border-color: #255F38;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    outline: none;
+}
+
+.article-form textarea {
+    resize: none;
+    min-height: 200px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.form-actions button,
+.form-actions .secondary {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.form-actions button {
+    background-color: #255F38;
+    color: #fff;
+    border: none;
+}
+
+.form-actions button:hover {
+    background-color: #1F7D53;
+    transform: translateY(-1px);
+}
+
+.form-actions .secondary {
+    background-color: transparent;
+    border: 1px solid #18230F;
+    color: #ccc;
+    text-decoration: none;
+}
+
+.form-actions .secondary:hover {
+    background-color: #333;
+    color: #fff;
+    transform: translateY(-1px);
+}
