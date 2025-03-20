@@ -6,22 +6,21 @@
 /* I should do some cleanup of the css, and last check in on the theme colors */
 
 body{
-    background-color: #18230F;
+    background-color: #f0f2f5;
 }
 header{
-    background-color: #27391C;
+    background-color: #1a237e;
 }
 .card-body{
-    background-color: #255F38;
-    color: #e6e6e6;
-
+    background-color: #ffffff;
+    color: #2c3e50;
 }
 .card-body a{
-    color: #e6e6e6;
+    color: #1a237e;
     transition: 150ms;
 }
 .card-body a:hover{
-    color:#27391C
+    color: #3949ab;
 }
 .search-container{
     display: flex;
@@ -35,7 +34,7 @@ h1{
     text-align: center;
     margin-top: 0;
     padding-bottom: 10px;
-    color: #e6e6e6;
+    color: #dee2e6;
 }
 .navbar{
     display:block;
@@ -52,7 +51,7 @@ h1{
     display: inline;
 }
 .navbar ul li a {
-    color: #e6e6e6;
+    color: #dee2e6;
     text-decoration: none;
     padding: 8px 15px;
     border-radius: 4px;
@@ -60,7 +59,7 @@ h1{
 }
 
 .navbar ul li a:hover {
-    background-color: #255F38;
+    background-color: #3949ab;
 }
 /*
 TODO:
@@ -73,9 +72,11 @@ TODO:
     gap: 10px;
 } */
 .feed , .article-form{
-    background-color: #27391C;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 10px;
     border-radius: 8px;
+    margin: 2rem auto;
 }
 
 #articles {
@@ -84,19 +85,19 @@ TODO:
     gap: 20px;
 }
 .search-container input[type="search"] {
-    background-color: #255F38;
-    border: 1px solid #27391C;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
     padding: 8px 15px;
     border-radius: 4px;
+    color: #2c3e50;
 }
 .search-container input[type="search"]::placeholder {
-    color:#e6e6e6;
-    
+    color: #6c757d;
 }
 .search-container select {
-    background-color: #255F38;
-    color: #e6e6e6;
-    border: 1px solid #27391C;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    border: 1px solid #dee2e6;
     padding: 8px 15px;
     border-radius: 4px;
 }
@@ -106,7 +107,6 @@ TODO:
     gap: 10px;
     margin-top: 20px;
 }
-
 .pagination a {
     text-decoration: none;
     color: black;
@@ -115,36 +115,36 @@ TODO:
     border-radius: 5px;
 }
 .pagination .page-link {
-    background-color: #255F38;
-    border-color: #27391C;
-    color: #e6e6e6;
+    background-color: #ffffff;
+    border-color: #dee2e6;
+    color: #2c3e50;
 }
 .search button {
-    background-color: #255F38;
-    border-color: #27391C;
-    color: #e6e6e6;
+    background-color: #1a237e;
+    border-color: #1a237e;
+    color: #ffffff;
 }
 .pagination .page-link:hover {
-    background-color: #319151;
+    background-color: #e9ecef;
 }
 
 .pagination .page-link.active {
-    background-color: #1F7D53;
-    border-color: #255F38;
+    background-color: #1a237e;
+    border-color: #1a237e;
+    color: #ffffff;
 }
-
 .btn-primary {
-    background-color: #255F38;
+    background-color: #1a237e;
     border: none;
     transition: background-color 0.3s;
 }
 
 .btn-primary:active {
-    background-color: #1F7D53 !important;
+    background-color: #283593 !important;
 }
 
 .btn-primary:hover {
-    background-color: #319151;
+    background-color: #3949ab;
 }
 
 @media (max-width: 990px) {
@@ -167,11 +167,11 @@ TODO:
     }
 }
 
-@media (max-width: 480px){
-    .search-container{
+@media (max-width: 480px) {
+    .search-container {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
-        
+    
     }
     .search{
         grid-column: 2 / 4;
@@ -190,14 +190,13 @@ TODO:
     }
 }
 
-@media (max-width: 390px){
+@media (max-width: 390px) {
     .search{
-        display:flex;    
+        display:flex;
     }
     .navbar ul li a{
         font-size: xx-small;
     }
-
 }
 
 /* article form */
@@ -206,18 +205,13 @@ TODO:
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-width: 800px;
+    border-radius: 8px;
 }
 
 .form-actions{
     display: flex;
     justify-content: space-between;
-}
-
-.article-form {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    border-radius: 8px;
 }
 
 /* .title-category {
@@ -230,7 +224,7 @@ TODO:
 .article-form label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #ccc;
+    color: #2c3e50;
     font-weight: 500;
 }
 
@@ -239,21 +233,22 @@ TODO:
 .article-form textarea {
     width: 100%;
     padding: 0.75rem;
-    background-color: #255F38;
-    border: 1px solid #444;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
     border-radius: 4px;
     transition: border-color 0.2s, box-shadow 0.2s;
+    color: #2c3e50;
 }
 .article-form input[type="text"]::placeholder,
 .article-form select,
-.article-form textarea::placeholder{
-    color: #e6e6e6;
+.article-form textarea::placeholder {
+    color: #6c757d;
 }
 
 .article-form input[type="text"]:focus,
 .article-form select:focus,
 .article-form textarea:focus {
-    border-color: #255F38;
+    border-color: #1a237e;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
     outline: none;
 }
@@ -279,20 +274,20 @@ TODO:
 }
 
 .form-actions button {
-    background-color: #255F38;
+    background-color: #1a237e;
     color: #fff;
     border: none;
 }
 
 .form-actions button:hover {
-    background-color: #1F7D53;
+    background-color: #1a237e;
     transform: translateY(-1px);
 }
 
 .form-actions .secondary {
     background-color: transparent;
     border: 1px solid #18230F;
-    color: #ccc;
+    color: #2c3e50;
     text-decoration: none;
 }
 
