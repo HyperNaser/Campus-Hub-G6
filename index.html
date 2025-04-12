@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Main Page</title>
+        <style>
+            html, body{
+                height: 100%;
+                background-color: #181818;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .container{
+                background-color: #5D5CDE;
+                padding: 40px;
+                border-radius: 16px;
+            }
+
+            .navbar ul{
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .navbar ul li a{
+                color: #dee2e6;
+                text-decoration: none;
+                width: 200px;
+                height: 60px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 8px;
+                background-color: #4444cc;
+                font-size: 1.2rem;
+            }
+
+            .navbar ul li a:hover{
+                background-color: #7878ed;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar" data-bs-theme="dark">
+                <ul>
+                    <li>
+                        <a href="Course-Review\CourseReview.html">Course Review</a>
+                    </li>
+                    <li>
+                        <a href="#">Events Calendar</a>
+                    </li>
+                    <li>
+                        <a href="Campus-News\index.html">Campus News</a>
+                    </li>
+                    <li>
+                        <a href="course-notes\index.html">Course Notes</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>
