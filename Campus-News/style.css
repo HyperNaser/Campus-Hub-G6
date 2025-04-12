@@ -6,21 +6,21 @@
 /* I should do some cleanup of the css, and last check in on the theme colors */
 
 body{
-    background-color: #f0f2f5;
+    background-color: #181818;
 }
 header{
-    background-color: #1a237e;
+    background-color: #5D5CDE;
 }
 .card-body{
-    background-color: #ffffff;
-    color: #2c3e50;
+    background-color: #242424;
+    color: white;
 }
 .card-body a{
-    color: #1a237e;
+    color: #5D5CDE;
     transition: 150ms;
 }
 .card-body a:hover{
-    color: #3949ab;
+    color: #7878ed;
 }
 .search-container{
     display: flex;
@@ -59,7 +59,7 @@ h1{
 }
 
 .navbar ul li a:hover {
-    background-color: #3949ab;
+    background-color: #7878ed;
 }
 /*
 TODO:
@@ -72,7 +72,7 @@ TODO:
     gap: 10px;
 } */
 .feed , .article-form{
-    background-color: #ffffff;
+    background-color: #242424;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 10px;
     border-radius: 8px;
@@ -85,8 +85,8 @@ TODO:
     gap: 20px;
 }
 .search-container input[type="search"] {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
+    background-color: #242424;
+    border: 1px solid #404040;
     padding: 8px 15px;
     border-radius: 4px;
     color: #2c3e50;
@@ -95,9 +95,9 @@ TODO:
     color: #6c757d;
 }
 .search-container select {
-    background-color: #f8f9fa;
-    color: #2c3e50;
-    border: 1px solid #dee2e6;
+    background-color: #242424;
+    color: white;
+    border: 1px solid #404040;
     padding: 8px 15px;
     border-radius: 4px;
 }
@@ -115,26 +115,26 @@ TODO:
     border-radius: 5px;
 }
 .pagination .page-link {
-    background-color: #ffffff;
-    border-color: #dee2e6;
-    color: #2c3e50;
+    background-color: #242424;
+    border-color: #404040;
+    color: white;
 }
-.search button {
-    background-color: #1a237e;
-    border-color: #1a237e;
-    color: #ffffff;
-}
+/* .search button {
+    background-color: #5D5CDE;
+    border-color: #5D5CDE;
+    color: #242424;
+} */
 .pagination .page-link:hover {
-    background-color: #e9ecef;
+    background-color: #404040;
 }
 
 .pagination .page-link.active {
-    background-color: #1a237e;
-    border-color: #1a237e;
-    color: #ffffff;
+    background-color: #5D5CDE;
+    border-color: #5D5CDE;
+    color: #242424;
 }
 .btn-primary {
-    background-color: #1a237e;
+    background-color: #5D5CDE;
     border: none;
     transition: background-color 0.3s;
 }
@@ -144,7 +144,7 @@ TODO:
 }
 
 .btn-primary:hover {
-    background-color: #3949ab;
+    background-color: #7878ed;
 }
 
 @media (max-width: 990px) {
@@ -224,7 +224,7 @@ TODO:
 .article-form label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #2c3e50;
+    color: white;
     font-weight: 500;
 }
 
@@ -234,7 +234,7 @@ TODO:
     width: 100%;
     padding: 0.75rem;
     background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
+    border: 1px solid #404040;
     border-radius: 4px;
     transition: border-color 0.2s, box-shadow 0.2s;
     color: #2c3e50;
@@ -248,7 +248,7 @@ TODO:
 .article-form input[type="text"]:focus,
 .article-form select:focus,
 .article-form textarea:focus {
-    border-color: #1a237e;
+    border-color: #5D5CDE;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
     outline: none;
 }
@@ -274,20 +274,20 @@ TODO:
 }
 
 .form-actions button {
-    background-color: #1a237e;
+    background-color: #5D5CDE;
     color: #fff;
     border: none;
 }
 
 .form-actions button:hover {
-    background-color: #1a237e;
+    background-color: #5D5CDE;
     transform: translateY(-1px);
 }
 
 .form-actions .secondary {
     background-color: transparent;
-    border: 1px solid #18230F;
-    color: #2c3e50;
+    border: 1px solid #404040;
+    color: white;
     text-decoration: none;
 }
 
