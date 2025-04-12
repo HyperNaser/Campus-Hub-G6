@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Reviews</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="bg-primary text-white p-3">
+        <div class="container">
+            <h1>Course Reviews</h1>
+            <p class="mb-0">Find and share reviews for your favorite courses</p>
+        </div>
+    </header>
+
+    <main class="container my-4">
+        <section id="course-listing">
+            <h2 class="mb-3">Course Listings</h2>
+            
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-2 mb-md-0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search courses...">
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex flex-column flex-md-row">
+                                <select class="form-select me-md-2 mb-2 mb-md-0">
+                                    <option selected>All Departments</option>
+                                    <option>IT</option>
+                                    <option>MATHS</option>
+                                    <option>English</option>
+                                    <option>Litreture</option>
+                                    <option>Business</option>
+                                    <option>Science</option>
+                                </select>
+                                <select class="form-select">
+                                    <option selected>Sort by: Newest</option>
+                                    <option>Highest Rated</option>
+                                    <option>Lowest Rated</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title h5">Internet Software Development</h3>
+                                <span class="badge bg-primary">ITCS333</span>
+                            </div>
+                            <p class="text-muted">Instructor: Dr.Abdulla Ebrahim Subah</p>
+                            <div class="mb-2">
+                                <div class="stars">
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <small class="text-muted">4.9/5.0 (24 reviews)</small>
+                            </div>
+                            <p class="card-text">A great course covering the fundamentals of Software Development with an inovative Instructor.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title h5">Calculus I</h3>
+                                <span class="badge bg-primary">MATHS101</span>
+                            </div>
+                            <p class="text-muted">Professor: Dr.Oliver Thomas</p>
+                            <div class="mb-2">
+                                <div class="stars">
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <small class="text-muted">1.4/5.0 (18 reviews)</small>
+                            </div>
+                            <p class="card-text">Covers limits, derivatives, and integrals with practical applications.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title h5">English Literature</h3>
+                                <span class="badge bg-primary">ENG154</span>
+                            </div>
+                            <p class="text-muted">Professor: Dr.Hussain Ali Ahmed</p>
+                            <div class="mb-2">
+                                <div class="stars">
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                    <span class="star filled">★</span>
+                                </div>
+                                <small class="text-muted">5.0/5.0 (32 reviews)</small>
+                            </div>
+                            <p class="card-text">An engaging exploration of major literary works from around the world.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <section id="add-review" class="mt-5">
+            <h2 class="mb-3">Add New Course Review</h2>
+            
+            <div class="card">
+                <div class="card-body">
+                    <form action="#" method="post">
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="courseName" class="form-label">Course Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="courseName" name="courseName" placeholder="e.g. Introduction to Computer Science" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="courseCode" class="form-label">Course Code <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="e.g. CS101" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="professor" class="form-label">Professor Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="professor" name="professor" placeholder="e.g. Dr. Smith" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+                                <select class="form-select" id="department" name="department" required>
+                                    <option value="" selected disabled>Select Department</option>
+                                    <option value="IT">Information Technology</option>
+                                    <option value="MATHS">Mathematics</option>
+                                    <option value="ENG">English</option>
+                                    <option value="LIT">Litreture</option>
+                                    <option value="BUS">Business</option>
+                                    <option value="SCE">Science</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Rating <span class="text-danger">*</span></label>
+                            <div class="rating-input">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="rating1" value="1" required>
+                                    <label class="form-check-label" for="rating1">1</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
+                                    <label class="form-check-label" for="rating2">2</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
+                                    <label class="form-check-label" for="rating3">3</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
+                                    <label class="form-check-label" for="rating4">4</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
+                                    <label class="form-check-label" for="rating5">5</label>
+                                </div>
+                                <span class="text-muted">(1 = Poor, 5 = Excellent)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="reviewTitle" class="form-label">Review Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="reviewTitle" name="reviewTitle" placeholder="Brief summary of your experience" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="reviewText" class="form-label">Review Details <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="reviewText" name="reviewText" rows="4" placeholder="Share your experience with this course..." required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="difficulty" class="form-label">Course Difficulty</label>
+                            <select class="form-select" id="difficulty" name="difficulty">
+                                <option value="" selected disabled>Select Difficulty</option>
+                                <option value="very_easy">Very Easy</option>
+                                <option value="easy">Easy</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="difficult">Hard</option>
+                                <option value="very_difficult">Very Hard</option>
+                            </select>
+                        </div>
+                        
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Course Reviews. All rights reserved to REVENGOSLING.INC.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
+/* Hussain Ali Ahmed Ali, 202208704 */
+  git config --global user.email "karmhussain200@gmail.com"
+  git config --global user.name "Hussain-Ali-Ahmed"
