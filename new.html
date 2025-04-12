@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add New Note | Campus Hub</title>
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.10/css/pico.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    main.container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+    }
+
+    form {
+      width: 100%;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <header class="container">
+    <h1>Add New Course Note</h1>
+    <nav>
+      <a href="index.html">← Back to Notes</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <form>
+
+      <label for="title">Note Title <span style="color: red;">*</span></label>
+      <input type="text" id="title" name="title" placeholder="e.g., Midterm Review for CS101" required />
+
+      <label for="course">Course Code <span style="color: red;">*</span></label>
+      <input type="text" id="course" name="course" placeholder="e.g., CS101" required pattern="[A-Z]{2,4}[0-9]{3}" />
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="5" placeholder="Give a brief overview of the note contents..."></textarea>
+
+      <label for="file-upload">Upload File</label>
+      <input type="file" id="file-upload" name="file" disabled />
+
+      <label for="tags">Tags</label>
+      <input type="text" id="tags" name="tags" placeholder="e.g., math, revision, midterm" disabled />
+
+      <div class="grid">
+        <button type="submit">Submit</button>
+        <button>Cancel</button>
+      </div>
+
+    </form>
+  </main>
+
+  <footer class="container">
+    <small>2025 Campus Hub</small>
+  </footer>
+</body>
+</html>
