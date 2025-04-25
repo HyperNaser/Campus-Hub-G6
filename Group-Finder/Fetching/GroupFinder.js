@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const API_URL = 'https://jsonplaceholder.typicode.com/users';
   const groupSection = document.querySelector('.group-cards');
   const searchInput = document.createElement('input');
+  searchInput.classList.add("input-design")
   const loading = document.createElement('p');
   loading.textContent = 'Loading...';
   groupSection.before(searchInput);
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let groups = [];
   let currentPage = 1;
-  const itemsPerPage = 3;
+  const itemsPerPage = 6;
 
   const fetchGroups = async () => {
     try {
