@@ -313,3 +313,34 @@ TODO:
     color: #fff;
     transform: translateY(-1px);
 }
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.error-message {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    position: absolute;
+    bottom: -20px;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.modal .article-content {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.badge {
+    font-size: 0.875rem;
+    padding: 0.5em 1em;
+}

@@ -4,7 +4,7 @@ const state = {
     itemsPerPage: 6,
     currentFilter: 'All Categories',
     searchQuery: '',
-    currentSort: 'Most Recent'  // Add this line
+    currentSort: 'Most Recent'
 };
 
 async function fetchData(url) {
@@ -50,7 +50,7 @@ function renderArticles(filteredArticles) {
                 <h2 class="card-title">${article.title}</h2>
                 <p class="card-text">${article.summary}</p>
                 <div class="d-flex justify-content-between align-items-center">
-                    <a href="#" class="btn btn-primary">Read More</a>
+                    <button class="btn btn-primary view-article" data-article-id="${article.id}">Read More</button>
                     <span class="badge bg-secondary">${article.category}</span>
                 </div>
             </div>
@@ -152,6 +152,48 @@ document.querySelector('.sort').addEventListener('change', (e) => {
     renderArticles(filterAndSearchArticles());
 });
 
+document.getElementById('articles').addEventListener('click', (e) => {
+    const viewButton = e.target.closest('.view-article');
+    if (viewButton) {
+        const articleId = viewButton.dataset.articleId;
+        const article = state.articles.find(a => a.id === articleId);
+        if (article) {
+            showArticleDetail(article);
+        }
+    }
+});
+
+function showArticleDetail(article) {
+    const modal = document.createElement('div');
+    modal.className = 'modal fade';
+    modal.id = 'articleModal';
+    modal.innerHTML = `
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">${article.title}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="badge bg-secondary mb-3">${article.category}</span>
+                    <p class="lead">${article.summary}</p>
+                    <hr>
+                    <div class="article-content">${article.content}</div>
+                    <div class="mt-3 text-muted">
+                        <small>Popularity: ${article.popularity}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+    modal.addEventListener('hidden.bs.modal', () => {
+        modal.remove();
+    });
+}
+
 async function initializeNews() {
     const URL = "https://my-json-server.typicode.com/HyperNaser/CampusNewsMockAPI/db";
     
@@ -165,5 +207,4 @@ async function initializeNews() {
     }
 }
 
-// Initialize the page
 initializeNews();
