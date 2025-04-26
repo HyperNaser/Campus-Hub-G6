@@ -1,35 +1,35 @@
 [
     {
-        "id": 1,
-        "name": "Internet Software Development",
-        "code": "ITCS333",
-        "professor": "Dr. Abdulla Ebrahim Subah",
-        "department": "IT",
-        "rating": 4.9,
-        "reviews": 24,
-        "description": "A great course covering the fundamentals of Software Development with an innovative Instructor.",
-        "date": "2024-03-15"
+      "id": 1,
+      "name": "Internet Software Development",
+      "code": "ITCS333",
+      "department": "IT",
+      "professor": "Dr. Abdulla Ebrahim Subah",
+      "rating": 4.9,
+      "reviewCount": 24,
+      "description": "A great course covering the fundamentals of Software Development with an innovative Instructor.",
+      "difficulty": "moderate"
     },
     {
-        "id": 2,
-        "name": "Calculus I",
-        "code": "MATHS101",
-        "professor": "Dr. Oliver Thomas",
-        "department": "MATHS",
-        "rating": 1.4,
-        "reviews": 18,
-        "description": "Covers limits, derivatives, and integrals with practical applications.",
-        "date": "2024-02-20"
+      "id": 2,
+      "name": "Calculus I",
+      "code": "MATHS101",
+      "department": "MATHS",
+      "professor": "Dr. Oliver Thomas",
+      "rating": 1.4,
+      "reviewCount": 18,
+      "description": "Covers limits, derivatives, and integrals with practical applications.",
+      "difficulty": "difficult"
     },
     {
-        "id": 3,
-        "name": "English Literature",
-        "code": "ENG154",
-        "professor": "Dr. Hussain Ali Ahmed",
-        "department": "ENG",
-        "rating": 5.0,
-        "reviews": 32,
-        "description": "An engaging exploration of major literary works from around the world.",
-        "date": "2024-04-01"
+      "id": 3,
+      "name": "English Literature",
+      "code": "ENG154",
+      "department": "ENG",
+      "professor": "Dr. Hussain Ali Ahmed",
+      "rating": 5.0,
+      "reviewCount": 32,
+      "description": "An engaging exploration of major literary works from around the world.",
+      "difficulty": "easy"
     }
-]
+  ]
