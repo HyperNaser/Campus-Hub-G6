@@ -3,226 +3,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Reviews</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Course Review System</title>
+    <link rel="stylesheet" href="Styles.css">
 </head>
 <body>
-    <header class="bg-primary text-white p-3">
-        <div class="container">
+    <header>
+        <div class="container header-content">
             <h1>Course Reviews</h1>
-            <p class="mb-0">Find and share reviews for your favorite courses</p>
+            <button id="addItemBtn" class="btn btn-primary">+ Add Course</button>
         </div>
     </header>
 
-    <main class="container my-4">
-        <section id="course-listing">
-            <h2 class="mb-3">Course Listings</h2>
-            
-            <div class="card mb-3">
+    <main class="container">
+        <div id="listingView">
+            <div class="search-container">
+                <div class="form-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search courses...">
+                </div>
+                <div class="filter-group">
+                    <select id="filterDifficulty" class="form-control">
+                        <option value="">All Levels</option>
+                        <option value="very-easy">Beginner</option>
+                        <option value="easy">Easy</option>
+                        <option value="moderate">Intermediate</option>
+                        <option value="difficult">Advanced</option>
+                        <option value="very-difficult">Expert</option>
+                    </select>
+                    <select id="sortBy" class="form-control">
+                        <option value="name-asc">A-Z</option>
+                        <option value="name-desc">Z-A</option>
+                        <option value="difficulty-asc">Easy to Hard</option>
+                        <option value="difficulty-desc">Hard to Easy</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="loadingIndicator" class="loading">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="errorContainer" class="error-message" style="display: none;"></div>
+
+            <div id="itemsGrid" class="grid"></div>
+
+            <nav>
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
+        </div>
+
+        <div id="detailView" style="display: none;">
+            <button id="backToListBtn" class="btn btn-secondary">← Back</button>
+            <div class="card" id="itemDetailCard">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6 mb-2 mb-md-0">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search courses...">
-                                <button class="btn btn-primary">Search</button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex flex-column flex-md-row">
-                                <select class="form-select me-md-2 mb-2 mb-md-0">
-                                    <option selected>All Departments</option>
-                                    <option>IT</option>
-                                    <option>MATHS</option>
-                                    <option>English</option>
-                                    <option>Litreture</option>
-                                    <option>Business</option>
-                                    <option>Science</option>
-                                </select>
-                                <select class="form-select">
-                                    <option selected>Sort by: Newest</option>
-                                    <option>Highest Rated</option>
-                                    <option>Lowest Rated</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 id="detailTitle"></h2>
+                    <div id="detailContent"></div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title h5">Internet Software Development</h3>
-                                <span class="badge bg-primary">ITCS333</span>
-                            </div>
-                            <p class="text-muted">Instructor: Dr.Abdulla Ebrahim Subah</p>
-                            <div class="mb-2">
-                                <div class="stars">
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                    <span class="star">★</span>
-                                </div>
-                                <small class="text-muted">4.9/5.0 (24 reviews)</small>
-                            </div>
-                            <p class="card-text">A great course covering the fundamentals of Software Development with an inovative Instructor.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title h5">Calculus I</h3>
-                                <span class="badge bg-primary">MATHS101</span>
-                            </div>
-                            <p class="text-muted">Professor: Dr.Oliver Thomas</p>
-                            <div class="mb-2">
-                                <div class="stars">
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                    <span class="star">★</span>
-                                    <span class="star">★</span>
-                                </div>
-                                <small class="text-muted">1.4/5.0 (18 reviews)</small>
-                            </div>
-                            <p class="card-text">Covers limits, derivatives, and integrals with practical applications.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title h5">English Literature</h3>
-                                <span class="badge bg-primary">ENG154</span>
-                            </div>
-                            <p class="text-muted">Professor: Dr.Hussain Ali Ahmed</p>
-                            <div class="mb-2">
-                                <div class="stars">
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                    <span class="star filled">★</span>
-                                </div>
-                                <small class="text-muted">5.0/5.0 (32 reviews)</small>
-                            </div>
-                            <p class="card-text">An engaging exploration of major literary works from around the world.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        <section id="add-review" class="mt-5">
-            <h2 class="mb-3">Add New Course Review</h2>
             
+            <div class="comments-section">
+                <h3>Reviews</h3>
+                <div id="commentsContainer"></div>
+                <form id="commentForm">
+                    <div class="form-group">
+                        <textarea id="commentText" class="form-control" rows="3" placeholder="Add your review..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+        <div id="createItemView" style="display: none;">
+            <button id="cancelCreateBtn" class="btn btn-secondary">← Cancel</button>
             <div class="card">
                 <div class="card-body">
-                    <form action="#" method="post">
-                        <div class="row mb-3">
-                            <div class="col-md-6 mb-3">
-                                <label for="courseName" class="form-label">Course Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="courseName" name="courseName" placeholder="e.g. Introduction to Computer Science" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="courseCode" class="form-label">Course Code <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="e.g. CS101" required>
-                            </div>
+                    <h2 id="formTitle">Add New Course</h2>
+                    <form id="itemForm">
+                        <div class="form-group">
+                            <input type="text" id="itemName" class="form-control" placeholder="Course Name*" required>
                         </div>
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-6 mb-3">
-                                <label for="professor" class="form-label">Professor Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="professor" name="professor" placeholder="e.g. Dr. Smith" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
-                                <select class="form-select" id="department" name="department" required>
-                                    <option value="" selected disabled>Select Department</option>
-                                    <option value="IT">Information Technology</option>
-                                    <option value="MATHS">Mathematics</option>
-                                    <option value="ENG">English</option>
-                                    <option value="LIT">Litreture</option>
-                                    <option value="BUS">Business</option>
-                                    <option value="SCE">Science</option>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <textarea id="itemDescription" class="form-control" rows="3" placeholder="Description*" required></textarea>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Rating <span class="text-danger">*</span></label>
-                            <div class="rating-input">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="rating" id="rating1" value="1" required>
-                                    <label class="form-check-label" for="rating1">1</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
-                                    <label class="form-check-label" for="rating2">2</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
-                                    <label class="form-check-label" for="rating3">3</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
-                                    <label class="form-check-label" for="rating4">4</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
-                                    <label class="form-check-label" for="rating5">5</label>
-                                </div>
-                                <span class="text-muted">(1 = Poor, 5 = Excellent)</span>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="reviewTitle" class="form-label">Review Title <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="reviewTitle" name="reviewTitle" placeholder="Brief summary of your experience" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="reviewText" class="form-label">Review Details <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="reviewText" name="reviewText" rows="4" placeholder="Share your experience with this course..." required></textarea>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="difficulty" class="form-label">Course Difficulty</label>
-                            <select class="form-select" id="difficulty" name="difficulty">
-                                <option value="" selected disabled>Select Difficulty</option>
-                                <option value="very_easy">Very Easy</option>
+                        <div class="form-group">
+                            <select id="itemDifficulty" class="form-control" required>
+                                <option value="">Select Difficulty*</option>
+                                <option value="very-easy">Beginner</option>
                                 <option value="easy">Easy</option>
-                                <option value="moderate">Moderate</option>
-                                <option value="difficult">Hard</option>
-                                <option value="very_difficult">Very Hard</option>
+                                <option value="moderate">Intermediate</option>
+                                <option value="difficult">Advanced</option>
+                                <option value="very-difficult">Expert</option>
                             </select>
                         </div>
-                        
-                        <div class="d-flex justify-content-end gap-2">
-                            <button type="reset" class="btn btn-secondary">Reset</button>
-                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        <div class="form-group">
+                            <select id="itemRating" class="form-control">
+                                <option value="">Rating (optional)</option>
+                                <option value="1">★☆☆☆☆</option>
+                                <option value="2">★★☆☆☆</option>
+                                <option value="3">★★★☆☆</option>
+                                <option value="4">★★★★☆</option>
+                                <option value="5">★★★★★</option>
+                            </select>
                         </div>
+                        <button type="submit" class="btn btn-primary">Save Course</button>
                     </form>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
-    <footer class="bg-light py-3 mt-5">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2024 Course Reviews. All rights reserved to REVENGOSLING.INC.</p>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="courseReview.js"></script>
+    <script>
+        const courses = [
+            {
+                id: 1,
+                name: "ITCS333",
+                description: "Learn the fundamentals of web development",
+                difficulty: "easy",
+                rating: 4,
+                reviews: [
+                    { id: 1, author: "John Doe", text: "Great introduction!" },
+                    { id: 2, author: "HAMANI", text: "Very helpful for beginners." }
+                ]
+            },
+            {
+                id: 2,
+                name: "MATHS101",
+                description: "CALCULUS I",
+                difficulty: "difficult",
+                rating: 5,
+                reviews: [
+                    { id: 3, author: "JOHN SNAKE", text: "THE PAIN!" }
+                ]
+            },
+            {
+                id: 3,
+                name: "ENGL155",
+                description: "Complete guide to English grammer",
+                difficulty: "moderate",
+                rating: 4,
+                reviews: []
+            }
+        ];
+
+        const views = {
+            listing: document.getElementById('listingView'),
+            detail: document.getElementById('detailView'),
+            create: document.getElementById('createItemView')
+        };
+
+        const elements = {
+            grid: document.getElementById('itemsGrid'),
+            loading: document.getElementById('loadingIndicator'),
+            error: document.getElementById('errorContainer'),
+            pagination: document.getElementById('pagination'),
+            search: document.getElementById('searchInput'),
+            filter: document.getElementById('filterDifficulty'),
+            sort: document.getElementById('sortBy'),
+            formTitle: document.getElementById('formTitle'),
+            detailTitle: document.getElementById('detailTitle'),
+            detailContent: document.getElementById('detailContent'),
+            reviewsContainer: document.getElementById('commentsContainer')
+        };
+
+        let currentPage = 1;
+        const itemsPerPage = 6;
+        let filteredCourses = [...courses];
+
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        function initApp() {
+            setTimeout(() => {
+                elements.loading.style.display = 'none';
+                renderCourses();
+                setupPagination();
+            }, 800);
+
+            document.getElementById('addItemBtn').addEventListener('click', () => showView('create'));
+            document.getElementById('backToListBtn').addEventListener('click', () => showView('listing'));
+            document.getElementById('cancelCreateBtn').addEventListener('click', () => showView('listing'));
+            
+            elements.search.addEventListener('input', filterCourses);
+            elements.filter.addEventListener('change', filterCourses);
+            elements.sort.addEventListener('change', sortCourses);
+            
+            document.getElementById('itemForm').addEventListener('submit', handleFormSubmit);
+            document.getElementById('commentForm').addEventListener('submit', handleReviewSubmit);
+        }
+
+        function showView(view) {
+            Object.values(views).forEach(v => v.style.display = 'none');
+            views[view].style.display = 'block';
+        }
+
+        function showCourseDetail(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+
+            showView('detail');
+            elements.detailTitle.textContent = course.name;
+            
+            const difficultyMap = {
+                'very-easy': ['Beginner', 'badge-very-easy'],
+                'easy': ['Easy', 'badge-easy'],
+                'moderate': ['Intermediate', 'badge-moderate'],
+                'difficult': ['Advanced', 'badge-difficult'],
+                'very-difficult': ['Expert', 'badge-very-difficult']
+            };
+
+            const [difficultyText, badgeClass] = difficultyMap[course.difficulty];
+            const stars = '★'.repeat(course.rating) + '☆'.repeat(5 - course.rating);
+
+            elements.detailContent.innerHTML = `
+                <p>${course.description}</p>
+                <div class="course-meta">
+                    <span class="badge ${badgeClass}">${difficultyText}</span>
+                    <span class="stars">${stars}</span>
+                </div>
+                <div class="course-actions">
+                    <button class="btn btn-primary" onclick="editCourse(${course.id})">Edit</button>
+                    <button class="btn btn-danger" onclick="deleteCourse(${course.id})">Delete</button>
+                </div>
+            `;
+
+            renderReviews(course.reviews);
+        }
+
+        function renderCourses() {
+            elements.grid.innerHTML = '';
+            
+            const start = (currentPage - 1) * itemsPerPage;
+            const coursesToShow = filteredCourses.slice(start, start + itemsPerPage);
+
+            if (coursesToShow.length === 0) {
+                elements.grid.innerHTML = '<p class="no-results">No courses found</p>';
+                return;
+            }
+
+            coursesToShow.forEach(course => {
+                const difficultyMap = {
+                    'very-easy': ['Beginner', 'badge-very-easy'],
+                    'easy': ['Easy', 'badge-easy'],
+                    'moderate': ['Intermediate', 'badge-moderate'],
+                    'difficult': ['Advanced', 'badge-difficult'],
+                    'very-difficult': ['Expert', 'badge-very-difficult']
+                };
+
+                const [difficultyText, badgeClass] = difficultyMap[course.difficulty];
+                const stars = '★'.repeat(course.rating) + '☆'.repeat(5 - course.rating);
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-body">
+                        <h3>${course.name}</h3>
+                        <p>${course.description.substring(0, 80)}...</p>
+                        <div class="course-meta">
+                            <span class="badge ${badgeClass}">${difficultyText}</span>
+                            <span class="stars">${stars}</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="showCourseDetail(${course.id})">View Details</button>
+                    </div>
+                `;
+                elements.grid.appendChild(card);
+            });
+        }
+
+        function renderReviews(reviews) {
+            elements.reviewsContainer.innerHTML = reviews.length 
+                ? reviews.map(r => `
+                    <div class="comment">
+                        <div class="comment-author">${r.author}</div>
+                        <div class="comment-text">${r.text}</div>
+                    </div>
+                `).join('')
+                : '<p>No reviews yet. Be the first to review!</p>';
+        }
+
+        function setupPagination() {
+            elements.pagination.innerHTML = '';
+            const pageCount = Math.ceil(filteredCourses.length / itemsPerPage);
+            if (pageCount <= 1) return;
+
+            const createPageItem = (text, page, isActive = false) => {
+                const li = document.createElement('li');
+                li.className = 'page-item';
+                li.innerHTML = `<a class="page-link ${isActive ? 'active' : ''}" href="#" onclick="changePage(${page})">${text}</a>`;
+                return li;
+            };
+
+            if (currentPage > 1) {
+                elements.pagination.appendChild(createPageItem('Previous', currentPage - 1));
+            }
+
+            for (let i = 1; i <= pageCount; i++) {
+                elements.pagination.appendChild(createPageItem(i, i, i === currentPage));
+            }
+
+            if (currentPage < pageCount) {
+                elements.pagination.appendChild(createPageItem('Next', currentPage + 1));
+            }
+        }
+
+        function filterCourses() {
+            const searchTerm = elements.search.value.toLowerCase();
+            const difficultyFilter = elements.filter.value;
+
+            elements.loading.style.display = 'flex';
+            
+            setTimeout(() => {
+                filteredCourses = courses.filter(course => {
+                    const matchesSearch = course.name.toLowerCase().includes(searchTerm) || 
+                                        course.description.toLowerCase().includes(searchTerm);
+                    const matchesDifficulty = !difficultyFilter || course.difficulty === difficultyFilter;
+                    return matchesSearch && matchesDifficulty;
+                });
+
+                currentPage = 1;
+                elements.loading.style.display = 'none';
+                sortCourses();
+            }, 300);
+        }
+
+        function sortCourses() {
+            const sortValue = elements.sort.value;
+            
+            filteredCourses.sort((a, b) => {
+                switch(sortValue) {
+                    case 'name-asc': return a.name.localeCompare(b.name);
+                    case 'name-desc': return b.name.localeCompare(a.name);
+                    case 'difficulty-asc': 
+                        return ['very-easy', 'easy', 'moderate', 'difficult', 'very-difficult']
+                            .indexOf(a.difficulty) - ['very-easy', 'easy', 'moderate', 'difficult', 'very-difficult']
+                            .indexOf(b.difficulty);
+                    case 'difficulty-desc': 
+                        return ['very-difficult', 'difficult', 'moderate', 'easy', 'very-easy']
+                            .indexOf(a.difficulty) - ['very-difficult', 'difficult', 'moderate', 'easy', 'very-easy']
+                            .indexOf(b.difficulty);
+                    default: return 0;
+                }
+            });
+
+            renderCourses();
+            setupPagination();
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const name = form.itemName.value.trim();
+            const description = form.itemDescription.value.trim();
+            const difficulty = form.itemDifficulty.value;
+            const rating = parseInt(form.itemRating.value) || 0;
+
+            if (!name || !description || !difficulty) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const courseId = form.dataset.courseId;
+            if (courseId) {
+                const index = courses.findIndex(c => c.id === parseInt(courseId));
+                if (index !== -1) {
+                    courses[index] = { ...courses[index], name, description, difficulty, rating };
+                }
+            } else {
+                courses.push({
+                    id: Math.max(...courses.map(c => c.id)) + 1,
+                    name,
+                    description,
+                    difficulty,
+                    rating,
+                    reviews: []
+                });
+            }
+
+            filterCourses();
+            showView('listing');
+        }
+        function handleReviewSubmit(e) {
+            e.preventDefault();
+            const text = e.target.commentText.value.trim();
+            
+            if (!text) {
+                alert('Please enter your review');
+                return;
+            }
+            const newReview = {
+                id: Date.now(),
+                author: "You",
+                text
+            };
+            const courseId = elements.detailTitle.dataset.courseId;
+            if (courseId) {
+                const course = courses.find(c => c.id === parseInt(courseId));
+                if (course) {
+                    course.reviews.push(newReview);
+                    renderReviews(course.reviews);
+                    e.target.reset();
+                }
+            }
+        }
+
+        function changePage(page) {
+            if (page < 1 || page > Math.ceil(filteredCourses.length / itemsPerPage)) return;
+            currentPage = page;
+            renderCourses();
+            setupPagination();
+            window.scrollTo(0, 0);
+        }
+
+        window.showCourseDetail = showCourseDetail;
+        window.changePage = changePage;
+
+        window.editCourse = function(id) {
+            const course = courses.find(c => c.id === id);
+            if (course) {
+                showView('create');
+                elements.formTitle.textContent = "Edit Course";
+                document.getElementById('itemName').value = course.name;
+                document.getElementById('itemDescription').value = course.description;
+                document.getElementById('itemDifficulty').value = course.difficulty;
+                document.getElementById('itemRating').value = course.rating;
+                document.getElementById('itemForm').dataset.courseId = course.id;
+            }
+        };
+        window.deleteCourse = function(id) {
+            if (confirm('Delete this course?')) {
+                const index = courses.findIndex(c => c.id === id);
+                if (index !== -1) {
+                    courses.splice(index, 1);
+                    filterCourses();
+                    showView('listing');
+                }
+            }
+        };
+    </script>
 </body>
 </html>
 
