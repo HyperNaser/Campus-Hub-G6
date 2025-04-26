@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a Study Group</title>
+  <link rel="stylesheet" href="create.css">
+  <script src="../Fetching/Back.js"> </script>
+</head>
+<body>
+  <header class="create-head">
+    <h1>Create a Study Group</h1>
+  </header>
+
+  <main>
+    <section class="form-container">
+      <form class="group-form" autocomplete="off">
+        <label for="groupname">Group Name</label>
+        <input type="text" id="groupname" placeholder="e.g. Chemistry Buddies">
+      
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" placeholder="e.g. Organic Chemistry">
+      
+        <label for="day">Day</label>
+        <input type="text" id="day" placeholder="e.g. Sunday">
+      
+        <label for="time">Time (1-12)</label>
+        <input type="number" id="time" min="1" max="12" placeholder="e.g. 3">
+      
+        <div class="am-pm">
+          <label><input type="radio" name="ampm" value="AM" required> AM</label>
+          <label><input type="radio" name="ampm" value="PM"> PM</label>
+        </div>
+      
+        <label for="location">Location</label>
+        <input type="text" id="location" placeholder="e.g. Library Room 1 or Zoom">
+      
+        <input type="submit" value="Create Group">
+      
+        <a id="back-btn" href="../Main-Page/GroupFinder.html">&#8617 Back to Main Page</a>
+      </form>
+
+      
+
+    </section>
+  </main>
+
+  <footer class="create-foot">
+    <p>© 2025 University Study Group Finder</p>
+  </footer>
+</body>
+</html>
