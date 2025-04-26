@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-bs-theme="dark">
+<html data-bs-theme="light">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +11,13 @@
     </head>
     <body>
         <header>
-            <nav class="navbar" data-bs-theme="dark">
+            <nav class="navbar" data-bs-theme="light">
                 <ul>
                     <li>
                         <a href="../Course-Review\CourseReview.html">Course Review</a>
                     </li>
                     <li>
-                        <a href="../Group-find\GroupFinder.html">Study Group Finder</a>
+                        <a href="../Group-Finder\Main Page\GroupFinder.html">Study Group Finder</a>
                     </li>
                     <li>
                         <a href="../Campus-News\index.html">Campus News</a>
@@ -33,7 +33,7 @@
             <section class="container feed">
                 <div class="search-container">
                     <a class="btn btn-primary" href="create.html" role="button">Create Article</a>
-                    <form class="search" action="#" method="get" onsubmit="return false;" autocomplete="false" >
+                    <form class="search" action="#" method="get" autocomplete="off" onsubmit="return false;" >
                       <input type="search" placeholder="Search news articles..." name="search">
                     </form>
                     <select class="filter">                    
@@ -98,19 +98,19 @@
                     <ul class="pagination">
                         <li class="page-item disabled">
                             <a class="page-link">Previous</a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link active" aria-current="page" href="#">1</a>
                         </li>
-                          <li class="page-item">
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
                             <a class="page-link" href="#">2</a>
-                          </li>
-                          <li class="page-item">
+                        </li>
+                        <li class="page-item">
                             <a class="page-link" href="#">3</a>
                         </li>
-                          <li class="page-item">
+                        <li class="page-item">
                             <a class="page-link" href="#">Next</a>
-                          </li>
+                        </li>
                     </ul>
                 </nav>
             </section>
