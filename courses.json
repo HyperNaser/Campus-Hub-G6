@@ -31,27 +31,5 @@
         "reviews": 32,
         "description": "An engaging exploration of major literary works from around the world.",
         "date": "2024-04-01"
-    },
-    {
-        "id": 4,
-        "name": "Introduction to Business",
-        "code": "BUS101",
-        "professor": "Dr. SOLOMON",
-        "department": "BUS",
-        "rating": 3.8,
-        "reviews": 15,
-        "description": "Fundamentals of business management and entrepreneurship.",
-        "date": "2024-01-10"
-    },
-    {
-        "id": 5,
-        "name": "Data Structures",
-        "code": "ITCS221",
-        "professor": "Dr. Hamani",
-        "department": "IT",
-        "rating": 4.2,
-        "reviews": 28,
-        "description": "Essential data structures and algorithms for computer science students.",
-        "date": "2024-03-05"
     }
 ]
