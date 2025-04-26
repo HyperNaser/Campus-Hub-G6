@@ -5,24 +5,29 @@
 
 /* I should do some cleanup of the css, and last check in on the theme colors */
 
-body{
-    background-color: #181818;
+body {
+    background-color: #f8f9fa;
 }
-header{
-    background-color: #5D5CDE;
+
+header {
+    background-color: #0d6efd;
 }
-.card-body{
-    background-color: #242424;
-    color: white;
+
+.card-body {
+    background-color: #ffffff;
+    color: #212529;
 }
-.card-body a{
-    color: #5D5CDE;
+
+.card-body a {
+    color: #0d6efd;
     transition: 150ms;
 }
-.card-body a:hover{
-    color: #7878ed;
+
+.card-body a:hover {
+    color: #0a58ca;
 }
-.search-container{
+
+.search-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,16 +36,19 @@ header{
     flex-shrink: 1;
     flex-wrap: wrap;
 }
-h1{
+
+h1 {
     text-align: center;
     margin-top: 0;
     padding-bottom: 10px;
     color: #dee2e6;
 }
-.navbar{
-    display:block;
+
+.navbar {
+    display: block;
 }
-.navbar ul{
+
+.navbar ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -48,11 +56,13 @@ h1{
     justify-content: center;
     gap: 10px;
 }
-.navbar ul li{
+
+.navbar ul li {
     display: inline;
 }
+
 .navbar ul li a {
-    color: #dee2e6;
+    color: #ffffff;
     text-decoration: none;
     padding: 8px 15px;
     border-radius: 4px;
@@ -60,8 +70,9 @@ h1{
 }
 
 .navbar ul li a:hover {
-    background-color: #7878ed;
+    background-color: #0a58ca;
 }
+
 /*
 TODO:
     Need to apply some spacing between header and feed, then feed and form
@@ -72,8 +83,9 @@ TODO:
     grid-template-columns: 2fr 1fr;
     gap: 10px;
 } */
-.feed , .article-form{
-    background-color: #242424;
+
+.feed, .article-form {
+    background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 10px;
     border-radius: 8px;
@@ -86,29 +98,34 @@ TODO:
     gap: 20px;
     min-height: 400px;
 }
+
 .search-container input[type="search"] {
-    background-color: #242424;
-    border: 1px solid #404040;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
     padding: 8px 15px;
     border-radius: 4px;
-    color: #2c3e50;
+    color: #212529;
 }
+
 .search-container input[type="search"]::placeholder {
     color: #6c757d;
 }
+
 .search-container select {
-    background-color: #242424;
-    color: white;
-    border: 1px solid #404040;
+    background-color: #ffffff;
+    color: #212529;
+    border: 1px solid #ced4da;
     padding: 8px 15px;
     border-radius: 4px;
 }
+
 .pagination {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 20px;
 }
+
 .pagination a {
     text-decoration: none;
     color: black;
@@ -116,37 +133,42 @@ TODO:
     border: 1px solid #ddd;
     border-radius: 5px;
 }
+
 .pagination .page-link {
-    background-color: #242424;
-    border-color: #404040;
-    color: white;
-}
-/* .search button {
-    background-color: #5D5CDE;
-    border-color: #5D5CDE;
-    color: #242424;
-} */
-.pagination .page-link:hover {
-    background-color: #404040;
+    background-color: #ffffff;
+    border-color: #dee2e6;
+    color: #0d6efd;
 }
 
-.pagination .page-link.active {
-    background-color: #5D5CDE;
-    border-color: #5D5CDE;
-    color: #242424;
+.pagination .page-link:hover {
+    background-color: #e9ecef;
 }
+
+.pagination .page-link.active,
+.pagination .active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #ffffff;
+    z-index: 3;
+}
+
+.pagination .page-link:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    z-index: 3;
+}
+
 .btn-primary {
-    background-color: #5D5CDE;
+    background-color: #0d6efd;
     border: none;
     transition: background-color 0.3s;
 }
 
 .btn-primary:active {
-    background-color: #283593 !important;
+    background-color: #0a53be !important;
 }
 
 .btn-primary:hover {
-    background-color: #7878ed;
+    background-color: #0a58ca;
 }
 
 .card {
@@ -165,21 +187,21 @@ TODO:
 }
 
 @media (max-width: 990px) {
-    .search-container{
+    .search-container {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
     }
-    .search-container input[type="search"]{
+    .search-container input[type="search"] {
         width: 90%;
     }
-    .fa-search{
+    .fa-search {
         width: 4vw;
     }
-    .search{
+    .search {
         grid-area: 1 / 1 / 1 / 4;
     }
-    .btn-primary{
+    .btn-primary {
         grid-area: 2 / 1 / 2 / 2;
     }
 }
@@ -188,30 +210,29 @@ TODO:
     .search-container {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
-    
     }
-    .search{
+    .search {
         grid-column: 2 / 4;
     }
-    .fa-search{
+    .fa-search {
         width: 4vw;
     }
-    .search{
+    .search {
         grid-area: 1 / 1 / 1 / 4;
     }
-    .btn-primary{
+    .btn-primary {
         grid-area: 3 / 1 / 3 / -1;
     }
-    .navbar ul li a{
+    .navbar ul li a {
         font-size: x-small;
     }
 }
 
 @media (max-width: 390px) {
-    .search{
-        display:flex;
+    .search {
+        display: flex;
     }
-    .navbar ul li a{
+    .navbar ul li a {
         font-size: xx-small;
     }
 }
@@ -226,22 +247,15 @@ TODO:
     border-radius: 8px;
 }
 
-.form-actions{
+.form-actions {
     display: flex;
     justify-content: space-between;
 }
 
-/* .title-category {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-} */
-
 .article-form label {
     display: block;
     margin-bottom: 0.5rem;
-    color: white;
+    color: #212529;
     font-weight: 500;
 }
 
@@ -250,12 +264,13 @@ TODO:
 .article-form textarea {
     width: 100%;
     padding: 0.75rem;
-    background-color: #242424;
-    border: 1px solid #404040;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
     border-radius: 4px;
     transition: border-color 0.2s, box-shadow 0.2s;
-    color: white;
+    color: #212529;
 }
+
 .article-form input[type="text"]::placeholder,
 .article-form select,
 .article-form textarea::placeholder {
@@ -265,7 +280,7 @@ TODO:
 .article-form input[type="text"]:focus,
 .article-form select:focus,
 .article-form textarea:focus {
-    border-color: #5D5CDE;
+    border-color: #0d6efd;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
     outline: none;
 }
@@ -291,26 +306,26 @@ TODO:
 }
 
 .form-actions button {
-    background-color: #5D5CDE;
+    background-color: #0d6efd;
     color: #fff;
     border: none;
 }
 
 .form-actions button:hover {
-    background-color: #5D5CDE;
+    background-color: #0d6efd;
     transform: translateY(-1px);
 }
 
 .form-actions .secondary {
     background-color: transparent;
-    border: 1px solid #404040;
-    color: white;
+    border: 1px solid #ced4da;
+    color: #212529;
     text-decoration: none;
 }
 
 .form-actions .secondary:hover {
-    background-color: #333;
-    color: #fff;
+    background-color: #e9ecef;
+    color: #212529;
     transform: translateY(-1px);
 }
 
@@ -324,6 +339,7 @@ TODO:
     margin-top: 0.25rem;
     position: absolute;
     bottom: -20px;
+    color: #dc3545;
 }
 
 .is-invalid {
