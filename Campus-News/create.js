@@ -9,6 +9,10 @@ const FORM_CONFIG = {
     }
 };
 
+const API_CONFIG = {
+    baseUrl: 'https://c7e6f354-c368-4b25-9fcc-5750ab6dd01d-00-a5wp4x8axjzp.pike.replit.dev/api.php'
+};
+
 const formValidation = {
     validate_title: (value) => {
         if (!value.trim()) return 'Title is required';
@@ -70,6 +74,21 @@ function validateFormStructure(form) {
     }
 }
 
+
+function setSubmitButtonState(button, isLoading) {
+    if (isLoading) {
+        button.disabled = true;
+        button.innerHTML = `
+            <span class="spinner-border spinner-border-sm me-2" 
+                  role="status" 
+                  style="width: 1rem; height: 1rem;">
+            </span>Submitting...`;
+    } else {
+        button.disabled = false;
+        button.innerHTML = 'Submit Article';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     try {
         const form = document.querySelector('.article-form');
@@ -100,11 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Form submission
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             let isValid = true;
+            const submitButton = form.querySelector('button[type="submit"]');
 
             try {
+                // Reset any previous error messages
+                const previousError = form.querySelector('.alert-danger');
+                if (previousError) previousError.remove();
+
+                // Validate all inputs
                 Object.entries(inputs).forEach(([field, input]) => {
                     const error = formValidation[`validate_${field}`](input.value);
                     if (error) {
@@ -114,16 +139,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (isValid) {
-                    // this makes it ready for API's, better than the regular html submission because it doesn't reload the page
-                    const formData = Object.entries(inputs).reduce((acc, [field, input]) => {
-                        acc[field] = input.value;
-                        return acc;
-                    }, {});
-                    console.log('Form is valid!', formData);
+                    setSubmitButtonState(submitButton, true);
+
+                    try {
+                        const formData = {
+                            type: 'create',
+                            title: inputs.title.value.trim(),
+                            summary: inputs.summary.value.trim(),
+                            category: inputs.category.value.trim(),
+                            content: inputs.content.value.trim()
+                        };
+
+                        const response = await fetch(API_CONFIG.baseUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+
+                        const responseText = await response.text();
+                        let result;
+                        
+                        if (responseText) {
+                            try {
+                                result = JSON.parse(responseText);
+                            } catch (e) {
+                                throw new Error(`Invalid server response`);
+                            }
+                        } else {
+                            throw new Error('No response from server');
+                        }
+
+                        if (!response.ok) {
+                            throw new Error(result.message || `Request failed`);
+                        }
+
+                        form.innerHTML = `
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">Article Created Successfully!</h4>
+                                <p>Your article has been submitted.</p>
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="index.html" class="btn btn-primary">Back to Articles</a>
+                                    <button type="button" class="btn btn-outline-primary" onclick="location.reload()">Create Another</button>
+                                </div>
+                            </div>`;
+
+                    } catch (error) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'alert alert-danger mt-3';
+                        errorDiv.textContent = `Failed to submit article: ${error.message}`;
+                        form.insertBefore(errorDiv, form.firstChild);
+                        setSubmitButtonState(submitButton, false);
+                    }
+                } else {
+                    setSubmitButtonState(submitButton, false);
                 }
             } catch (error) {
                 console.error('Form validation failed:', error);
                 alert('There was an error validating the form. Please try again.');
+                setSubmitButtonState(submitButton, false);
             }
         });
     } catch (error) {

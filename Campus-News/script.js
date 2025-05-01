@@ -1,21 +1,43 @@
 const state = {
-    articles: [],
     currentPage: 1,
     itemsPerPage: 6,
     currentFilter: 'All Categories',
     searchQuery: '',
-    currentSort: 'Most Recent'
+    currentSort: 'Most Recent',
+    baseUrl: 'https://c7e6f354-c368-4b25-9fcc-5750ab6dd01d-00-a5wp4x8axjzp.pike.replit.dev/api.php'
 };
 
-async function fetchData(url) {
+async function fetchArticles() {
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+        showLoadingState();
+        const url = new URL(state.baseUrl);
+
+        if (state.searchQuery) {
+            url.searchParams.append('search', state.searchQuery);
         }
-        return await response.json();
+        
+        if (state.currentSort !== 'Most Recent') {
+            url.searchParams.append('sort', state.currentSort);
+        }
+        
+        if (state.currentFilter !== 'All Categories') {
+            url.searchParams.append('category', state.currentFilter.toLowerCase());
+        }
+        
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const result = await response.json();
+        const articles = Array.isArray(result.data) ? result.data : [];
+        state.allArticles = articles;
+         
+        const startIndex = (state.currentPage - 1) * state.itemsPerPage;
+        const endIndex = startIndex + state.itemsPerPage;
+        const paginatedArticles = articles.slice(startIndex, endIndex);
+        
+        renderArticles(paginatedArticles, articles.length);
     } catch (error) {
-        throw new Error('Fetch error: ' + error.message);
+        showErrorState(error);
     }
 }
 
@@ -38,13 +60,24 @@ function showErrorState(error) {
         </div>`;
 }
 
-function renderArticles(filteredArticles) {
+function renderArticles(articles, totalItems) {
     const articleSection = document.getElementById("articles");
-    const startIndex = (state.currentPage - 1) * state.itemsPerPage;
-    const endIndex = startIndex + state.itemsPerPage;
-    const articlesToShow = filteredArticles.slice(startIndex, endIndex);
+    
+    if (articles.length === 0) {
+        articleSection.innerHTML = `
+            <div class="text-center my-5">
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">No Articles Found</h4>
+                    <p>No articles match your current search criteria.</p>
+                    <hr>
+                    <p class="mb-0">Try adjusting your filters or search terms.</p>
+                </div>
+            </div>`;
+        updatePagination(0);
+        return;
+    }
 
-    articleSection.innerHTML = articlesToShow.map(article => `
+    articleSection.innerHTML = articles.map(article => `
         <article class="card mb-3">
             <div class="card-body">
                 <h2 class="card-title">${article.title}</h2>
@@ -57,7 +90,7 @@ function renderArticles(filteredArticles) {
         </article>
     `).join('');
 
-    updatePagination(filteredArticles.length);
+    updatePagination(totalItems);
 }
 
 function updatePagination(totalItems) {
@@ -84,56 +117,39 @@ function updatePagination(totalItems) {
     pagination.innerHTML = paginationHTML;
 }
 
-function filterAndSearchArticles() {
-    let filtered = [...state.articles];
-
-    // Apply category filter
-    if (state.currentFilter !== 'All Categories') {
-        filtered = filtered.filter(article => article.category === state.currentFilter);
-    }
-
-    // Apply search
-    if (state.searchQuery) {
-        const query = state.searchQuery.toLowerCase();
-        filtered = filtered.filter(article => 
-            article.title.toLowerCase().includes(query) || 
-            article.summary.toLowerCase().includes(query)
-        );
-    }
-
-    // Apply sorting
-    return sortArticles(filtered);
-}
-
-function sortArticles(articles) {
-    const sortedArticles = [...articles];
-    
-    switch(state.currentSort) {
-        case 'Most Popular':
-            return sortedArticles.sort((a, b) => b.popularity - a.popularity);
-        case 'Alphabetical':
-            return sortedArticles.sort((a, b) => a.title.localeCompare(b.title));
-        case 'Most Recent':
-        default:
-            return sortedArticles; // Assuming articles are already sorted by date in the API
-    }
-}
-
-// Event Listeners
 document.querySelector('.filter').addEventListener('change', (e) => {
     state.currentFilter = e.target.value;
     state.currentPage = 1;
-    renderArticles(filterAndSearchArticles());
+    fetchArticles();
 });
 
 document.querySelector('.search input[type="search"]').addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
         e.preventDefault();
-        state.searchQuery = e.target.value;
+        state.searchQuery = e.target.value.trim();
         state.currentPage = 1;
-        renderArticles(filterAndSearchArticles());
+        fetchArticles();
     }
 });
+
+function resetFilters() {
+    state.currentFilter = 'All Categories';
+    state.searchQuery = '';
+    state.currentPage = 1;
+    state.currentSort = 'Most Recent';
+    
+    document.querySelector('.filter').value = state.currentFilter;
+    document.querySelector('.search input[type="search"]').value = '';
+    document.querySelector('.sort').value = state.currentSort;
+    
+    fetchArticles();
+}
+
+document.querySelector('.search-container').insertAdjacentHTML('beforeend', `
+    <button class="btn btn-outline-secondary" onclick="resetFilters()">
+        Reset Filters
+    </button>
+`);
 
 document.querySelector('.pagination').addEventListener('click', (e) => {
     e.preventDefault();
@@ -141,7 +157,7 @@ document.querySelector('.pagination').addEventListener('click', (e) => {
         const newPage = parseInt(e.target.dataset.page);
         if (newPage && newPage !== state.currentPage) {
             state.currentPage = newPage;
-            renderArticles(filterAndSearchArticles());
+            fetchArticles();
         }
     }
 });
@@ -149,7 +165,7 @@ document.querySelector('.pagination').addEventListener('click', (e) => {
 document.querySelector('.sort').addEventListener('change', (e) => {
     state.currentSort = e.target.value;
     state.currentPage = 1;
-    renderArticles(filterAndSearchArticles());
+    fetchArticles();
 });
 
 document.getElementById('articles').addEventListener('click', (e) => {
@@ -194,17 +210,4 @@ function showArticleDetail(article) {
     });
 }
 
-async function initializeNews() {
-    const URL = "https://my-json-server.typicode.com/HyperNaser/CampusNewsMockAPI/db";
-    
-    try {
-        showLoadingState();
-        state.articles = await fetchData(URL);
-        state.articles = state.articles.news;
-        renderArticles(state.articles);
-    } catch (error) {
-        showErrorState(error);
-    }
-}
-
-initializeNews();
+fetchArticles();
