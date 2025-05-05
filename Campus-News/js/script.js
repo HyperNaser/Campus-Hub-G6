@@ -1,3 +1,5 @@
+import { showArticleDetail } from './modal.js';
+
 const state = {
     currentPage: 1,
     itemsPerPage: 6,
@@ -172,42 +174,11 @@ document.getElementById('articles').addEventListener('click', (e) => {
     const viewButton = e.target.closest('.view-article');
     if (viewButton) {
         const articleId = viewButton.dataset.articleId;
-        const article = state.articles.find(a => a.id === articleId);
+        const article = state.allArticles.find(a => a.id === articleId);
         if (article) {
-            showArticleDetail(article);
+            showArticleDetail(article, state.baseUrl);
         }
     }
 });
-
-function showArticleDetail(article) {
-    const modal = document.createElement('div');
-    modal.className = 'modal fade';
-    modal.id = 'articleModal';
-    modal.innerHTML = `
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">${article.title}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <span class="badge bg-secondary mb-3">${article.category}</span>
-                    <p class="lead">${article.summary}</p>
-                    <hr>
-                    <div class="article-content">${article.content}</div>
-                    <div class="mt-3 text-muted">
-                        <small>Popularity: ${article.popularity}</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-    const modalInstance = new bootstrap.Modal(modal);
-    modalInstance.show();
-    modal.addEventListener('hidden.bs.modal', () => {
-        modal.remove();
-    });
-}
 
 fetchArticles();
