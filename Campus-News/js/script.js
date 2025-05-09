@@ -147,11 +147,7 @@ function resetFilters() {
     fetchArticles();
 }
 
-document.querySelector('.search-container').insertAdjacentHTML('beforeend', `
-    <button class="btn btn-outline-secondary" onclick="resetFilters()">
-        Reset Filters
-    </button>
-`);
+document.querySelector('#reset-filters').addEventListener('click', resetFilters);
 
 document.querySelector('.pagination').addEventListener('click', (e) => {
     e.preventDefault();

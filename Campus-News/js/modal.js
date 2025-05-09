@@ -122,7 +122,60 @@ function createCommentsSection(article) {
 
 function setupCommentHandlers(modal, article, baseUrl) {
     const commentsList = modal.querySelector('.comments-list');
+    const commentForm = modal.querySelector('.comment-form');
     
+    commentForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const textarea = commentForm.querySelector('textarea');
+        const authorInput = commentForm.querySelector('input[name="author_name"]');
+        const submitButton = commentForm.querySelector('button[type="submit"]');
+        
+        const comment = textarea.value.trim();
+        const authorName = authorInput.value.trim();
+        
+        if (comment) {
+            submitButton.disabled = true;
+            
+            try {
+                const result = await postComment(baseUrl, article.id, comment, authorName);
+                
+                
+                const newComment = {
+                    id: result.comment_id,
+                    comment: comment,
+                    author_name: authorName || 'Anonymous',
+                    commented_at: new Date().toISOString()
+                };
+                
+                // Update article object with new comment
+                if (!Array.isArray(article.parsedComments)) {
+                    article.parsedComments = [];
+                }
+                article.parsedComments.unshift(newComment);
+                
+                // Update comments list
+                commentsList.innerHTML = renderComments(article.parsedComments);
+                
+                // Clear form
+                textarea.value = '';
+                authorInput.value = '';
+                
+                // Show success message
+                const successDiv = document.createElement('div');
+                successDiv.className = 'alert alert-success mt-2';
+                successDiv.textContent = 'Comment posted successfully';
+                commentForm.appendChild(successDiv);
+                setTimeout(() => successDiv.remove(), 3000);
+                
+            } catch (error) {
+                console.error('Post comment error:', error);
+                showError(modal, 'Failed to post comment');
+            } finally {
+                submitButton.disabled = false;
+            }
+        }
+    });
+
     // Handle comment edit
     commentsList.addEventListener('click', async (e) => {
         if (e.target.matches('.edit-comment')) {
