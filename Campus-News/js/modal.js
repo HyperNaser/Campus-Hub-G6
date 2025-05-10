@@ -129,7 +129,7 @@ function setupCommentHandlers(modal, article, baseUrl) {
                     id: result.comment_id,
                     comment: comment,
                     author_name: authorName || 'Anonymous',
-                    commented_at: new Date().toISOString()
+                    commented_at: new Date().toISOString().slice(0, -1)
                 };
                 
                 if (!Array.isArray(article.comments)) {

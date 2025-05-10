@@ -15,13 +15,7 @@ export function showSuccess(container, message, duration = 3000) {
 }
 
 export function formatDate(dateString) {
-    let utcDate;
-    // Parse the UTC date string
-    if (dateString.charAt(dateString.length - 1) !== 'Z') {
-        utcDate = new Date(dateString + 'Z'); // Append 'Z' to indicate UTC
-    }else{
-        utcDate = new Date(dateString);
-    }
+    const utcDate = new Date(dateString + 'Z'); // Append 'Z' to indicate UTC
 
     // Format options for client's timezone
     const options = {
