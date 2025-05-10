@@ -1,3 +1,5 @@
+import { formatDate } from './utils.js';
+
 export async function postComment(baseUrl, articleId, comment, authorName) {
     const response = await fetch(baseUrl, {
         method: 'POST',
@@ -89,15 +91,4 @@ export async function editComment(baseUrl, articleId, commentId, newText) {
 
     if (!response.ok) throw new Error('Failed to edit comment');
     return response.json();
-}
-
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
 }

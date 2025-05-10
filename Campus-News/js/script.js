@@ -1,17 +1,34 @@
 import { showArticleDetail } from './modal.js';
+import { showError } from './utils.js';
 
-const state = {
+const DEFAULT_STATE = {
     currentPage: 1,
     itemsPerPage: 6,
     currentFilter: 'All Categories',
     searchQuery: '',
-    currentSort: 'Most Recent',
-    baseUrl: 'https://c7e6f354-c368-4b25-9fcc-5750ab6dd01d-00-a5wp4x8axjzp.pike.replit.dev/api.php'
+    currentSort: 'Most Recent'
 };
 
+const state = { ...DEFAULT_STATE };
+
+function resetState() {
+    Object.assign(state, DEFAULT_STATE);
+    updateUI();
+}
+
+function updateUI() {
+    document.querySelector('.filter').value = state.currentFilter;
+    document.querySelector('.search input[type="search"]').value = state.searchQuery;
+    document.querySelector('.sort').value = state.currentSort;
+    fetchArticles();
+}
+
+state.baseUrl = 'https://c7e6f354-c368-4b25-9fcc-5750ab6dd01d-00-a5wp4x8axjzp.pike.replit.dev/api.php';
+
 async function fetchArticles() {
+    showLoadingState();
+    
     try {
-        showLoadingState();
         const url = new URL(state.baseUrl);
 
         if (state.searchQuery) {
@@ -38,8 +55,21 @@ async function fetchArticles() {
         const paginatedArticles = articles.slice(startIndex, endIndex);
         
         renderArticles(paginatedArticles, articles.length);
+
     } catch (error) {
-        showErrorState(error);
+        console.error('Fetch error:', error);
+        const articleSection = document.getElementById("articles");
+        articleSection.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Error Loading Articles</h4>
+                <p>${error.message}</p>
+                <hr>
+                <button class="btn btn-outline-danger" onclick="window.location.reload()">
+                    <i class="fa fa-refresh"></i> Retry
+                </button>
+            </div>
+        `;
+        updatePagination(0); // Reset pagination when there's an error
     }
 }
 
@@ -135,16 +165,7 @@ document.querySelector('.search input[type="search"]').addEventListener('keyup',
 });
 
 function resetFilters() {
-    state.currentFilter = 'All Categories';
-    state.searchQuery = '';
-    state.currentPage = 1;
-    state.currentSort = 'Most Recent';
-    
-    document.querySelector('.filter').value = state.currentFilter;
-    document.querySelector('.search input[type="search"]').value = '';
-    document.querySelector('.sort').value = state.currentSort;
-    
-    fetchArticles();
+    resetState();
 }
 
 document.querySelector('#reset-filters').addEventListener('click', resetFilters);
@@ -173,6 +194,17 @@ document.getElementById('articles').addEventListener('click', (e) => {
         const article = state.allArticles.find(a => a.id === articleId);
         if (article) {
             showArticleDetail(article, state.baseUrl);
+        }
+    }
+});
+
+document.addEventListener('articleUpdated', (e) => {
+    const updatedArticle = e.detail;
+    if (state.allArticles) {
+        const index = state.allArticles.findIndex(a => a.id === updatedArticle.id);
+        if (index !== -1) {
+            state.allArticles[index] = updatedArticle;
+            fetchArticles(); // Re-render articles with updated data
         }
     }
 });

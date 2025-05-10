@@ -1,5 +1,6 @@
 import { renderComments, postComment, deleteComment, editComment } from './comments.js';
 import { deleteArticle, editArticle } from './articles.js';
+import { showError, showSuccess, formatDate } from './utils.js';
 
 export function showArticleDetail(article, baseUrl) {
     let modal = document.getElementById('articleModal');
@@ -10,8 +11,7 @@ export function showArticleDetail(article, baseUrl) {
     }
 
     modal.innerHTML = createModalContent(article);
-    setupCommentHandlers(modal, article, baseUrl);
-    setupArticleHandlers(modal, article, baseUrl);
+    setupEventHandlers(modal, article, baseUrl);
 
     if (!document.getElementById('articleModal')) {
         document.body.appendChild(modal);
@@ -19,10 +19,6 @@ export function showArticleDetail(article, baseUrl) {
 
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
-
-    modal.addEventListener('hidden.bs.modal', () => {
-        modal.remove();
-    });
 }
 
 function createModalContent(article) {
@@ -82,18 +78,8 @@ function createArticleContent(article) {
 }
 
 function createCommentsSection(article) {
-    // Parse comments if they're a JSON string
-    let comments = [];
-    try {
-        comments = typeof article.comments === 'string' 
-            ? JSON.parse(article.comments) 
-            : article.comments || [];
-    } catch (e) {
-        console.error('Failed to parse comments:', e);
-    }
-
-    // Store comments in article object for later use
-    article.parsedComments = comments;
+    
+    let comments = article.comments || [];
 
     return `
         <div class="comments-section mt-4">
@@ -139,7 +125,6 @@ function setupCommentHandlers(modal, article, baseUrl) {
             try {
                 const result = await postComment(baseUrl, article.id, comment, authorName);
                 
-                
                 const newComment = {
                     id: result.comment_id,
                     comment: comment,
@@ -147,29 +132,24 @@ function setupCommentHandlers(modal, article, baseUrl) {
                     commented_at: new Date().toISOString()
                 };
                 
-                // Update article object with new comment
-                if (!Array.isArray(article.parsedComments)) {
-                    article.parsedComments = [];
+                if (!Array.isArray(article.comments)) {
+                    article.comments = [];
                 }
-                article.parsedComments.unshift(newComment);
+                article.comments.unshift(newComment);
                 
                 // Update comments list
-                commentsList.innerHTML = renderComments(article.parsedComments);
+                commentsList.innerHTML = renderComments(article.comments);
                 
                 // Clear form
                 textarea.value = '';
                 authorInput.value = '';
                 
                 // Show success message
-                const successDiv = document.createElement('div');
-                successDiv.className = 'alert alert-success mt-2';
-                successDiv.textContent = 'Comment posted successfully';
-                commentForm.appendChild(successDiv);
-                setTimeout(() => successDiv.remove(), 3000);
+                showSuccess(commentForm, 'Comment posted successfully');
                 
             } catch (error) {
                 console.error('Post comment error:', error);
-                showError(modal, 'Failed to post comment');
+                showError(modal.querySelector('.modal-body'), 'Failed to post comment');
             } finally {
                 submitButton.disabled = false;
             }
@@ -236,10 +216,10 @@ function setupCommentHandlers(modal, article, baseUrl) {
                     e.target.closest('.comment').remove();
                     
                     // Update comments array
-                    article.parsedComments = article.parsedComments.filter(c => c.id !== commentId);
+                    article.comments = article.comments.filter(c => c.id !== commentId);
                     
                     // Show "no comments" message if needed
-                    if (article.parsedComments.length === 0) {
+                    if (article.comments.length === 0) {
                         commentsList.innerHTML = renderComments([]);
                     }
                 } catch (error) {
@@ -280,7 +260,6 @@ function setupArticleHandlers(modal, article, baseUrl) {
         submitButton.disabled = true;
 
         try {
-            // Prepare article data for API
             const articleData = {
                 type: 'edit_article',
                 news_id: article.id,
@@ -290,7 +269,6 @@ function setupArticleHandlers(modal, article, baseUrl) {
                 content: formData.get('content')
             };
 
-            // Send update request
             await editArticle(baseUrl, article.id, articleData);
 
             // Update local article data
@@ -301,31 +279,29 @@ function setupArticleHandlers(modal, article, baseUrl) {
                 content: articleData.content
             });
 
-            // Update UI
+            // Update UI - only update the article content section
             modal.querySelector('.modal-title').textContent = article.title;
-            articleSection.innerHTML = createArticleContent(article);
+            const articleHeader = articleSection.querySelector('.article-header');
+            articleHeader.querySelector('.badge').textContent = article.category;
+            articleSection.querySelector('.lead').textContent = article.summary;
+            articleSection.querySelector('.article-content').textContent = article.content;
             
             // Show success message
-            const successDiv = document.createElement('div');
-            successDiv.className = 'alert alert-success mt-2';
-            successDiv.textContent = 'Article updated successfully';
-            modal.querySelector('.modal-body').prepend(successDiv);
-            setTimeout(() => successDiv.remove(), 3000);
+            showSuccess(modal.querySelector('.modal-body'), 'Article updated successfully');
 
             // Reset view
             articleSection.style.display = 'block';
             editForm.style.display = 'none';
             editForm.classList.add('d-none');
 
-            // Reattach handlers since we replaced content
-            setupArticleHandlers(modal, article, baseUrl);
+            // Dispatch custom event to update article list
+            document.dispatchEvent(new CustomEvent('articleUpdated', { 
+                detail: article 
+            }));
 
         } catch (error) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'alert alert-danger mt-2';
-            errorDiv.textContent = 'Failed to update article';
-            editForm.prepend(errorDiv);
-            setTimeout(() => errorDiv.remove(), 3000);
+            showError(editForm, 'Failed to update article');
+            console.error('Edit error:', error);
         } finally {
             submitButton.disabled = false;
         }
@@ -379,10 +355,11 @@ function setupArticleHandlers(modal, article, baseUrl) {
     });
 }
 
-function showError(modal, message) {
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'alert alert-danger mt-2';
-    errorDiv.textContent = message;
-    modal.querySelector('.modal-body').appendChild(errorDiv);
-    setTimeout(() => errorDiv.remove(), 3000);
+function setupEventHandlers(modal, article, baseUrl) {
+    setupArticleHandlers(modal, article, baseUrl);
+    setupCommentHandlers(modal, article, baseUrl);
+    
+    modal.addEventListener('hidden.bs.modal', () => {
+        modal.remove();
+    });
 }
