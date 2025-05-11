@@ -66,7 +66,6 @@ export async function deleteComment(baseUrl, articleId, commentId) {
         },
         body: JSON.stringify({
             type: 'delete_comment',
-            news_id: articleId,
             comment_id: commentId
         })
     });
@@ -83,7 +82,6 @@ export async function editComment(baseUrl, articleId, commentId, newText) {
         },
         body: JSON.stringify({
             type: 'edit_comment',
-            news_id: articleId,
             comment_id: commentId,
             comment: newText
         })

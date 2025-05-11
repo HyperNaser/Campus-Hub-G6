@@ -1,5 +1,4 @@
 import { showArticleDetail } from './modal.js';
-import { showError } from './utils.js';
 
 const DEFAULT_STATE = {
     currentPage: 1,
@@ -9,14 +8,14 @@ const DEFAULT_STATE = {
     currentSort: 'Most Recent'
 };
 
-const state = { ...DEFAULT_STATE };
+const state = { ...DEFAULT_STATE }; // Initialize state with default values
 
-function resetState() {
+function resetState() { // Reset state to default values
     Object.assign(state, DEFAULT_STATE);
     updateUI();
 }
 
-function updateUI() {
+function updateUI() { // Update UI elements based on the current state
     document.querySelector('.filter').value = state.currentFilter;
     document.querySelector('.search input[type="search"]').value = state.searchQuery;
     document.querySelector('.sort').value = state.currentSort;
@@ -47,9 +46,13 @@ async function fetchArticles() {
         if (!response.ok) throw new Error('Network response was not ok');
         
         const result = await response.json();
+
+        // Check if the response is not empty
         const articles = Array.isArray(result.data) ? result.data : [];
+
         state.allArticles = articles;
-         
+        
+        // Calculate the start index for pagination (1-based index to 0-based index)
         const startIndex = (state.currentPage - 1) * state.itemsPerPage;
         const endIndex = startIndex + state.itemsPerPage;
         const paginatedArticles = articles.slice(startIndex, endIndex);
@@ -84,14 +87,6 @@ function showLoadingState() {
         </div>`;
 }
 
-function showErrorState(error) {
-    const articleSection = document.getElementById("articles");
-    articleSection.innerHTML = `
-        <div class="alert alert-danger" role="alert">
-            Error loading articles: ${error.message}
-        </div>`;
-}
-
 function renderArticles(articles, totalItems) {
     const articleSection = document.getElementById("articles");
     
@@ -109,6 +104,7 @@ function renderArticles(articles, totalItems) {
         return;
     }
 
+    // Map through the articles and create HTML for each
     articleSection.innerHTML = articles.map(article => `
         <article class="card mb-3">
             <div class="card-body">
@@ -129,11 +125,13 @@ function updatePagination(totalItems) {
     const totalPages = Math.ceil(totalItems / state.itemsPerPage);
     const pagination = document.querySelector('.pagination');
     
+    // define the Previous button
     let paginationHTML = `
         <li class="page-item ${state.currentPage === 1 ? 'disabled' : ''}">
             <a class="page-link" href="#" data-page="${state.currentPage - 1}">Previous</a>
         </li>`;
 
+    // Generate page numbers
     for (let i = 1; i <= totalPages; i++) {
         paginationHTML += `
             <li class="page-item ${i === state.currentPage ? 'active' : ''}">
@@ -141,6 +139,7 @@ function updatePagination(totalItems) {
             </li>`;
     }
 
+    // define the Next button
     paginationHTML += `
         <li class="page-item ${state.currentPage === totalPages ? 'disabled' : ''}">
             <a class="page-link" href="#" data-page="${state.currentPage + 1}">Next</a>
@@ -149,12 +148,14 @@ function updatePagination(totalItems) {
     pagination.innerHTML = paginationHTML;
 }
 
+// Add event listener for filter
 document.querySelector('.filter').addEventListener('change', (e) => {
     state.currentFilter = e.target.value;
     state.currentPage = 1;
     fetchArticles();
 });
 
+// Add event listener for search input
 document.querySelector('.search input[type="search"]').addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
         e.preventDefault();
@@ -164,16 +165,14 @@ document.querySelector('.search input[type="search"]').addEventListener('keyup',
     }
 });
 
-function resetFilters() {
-    resetState();
-}
+// Add event listener for reset filters button
+document.querySelector('#reset-filters').addEventListener('click', resetState);
 
-document.querySelector('#reset-filters').addEventListener('click', resetFilters);
-
+// Add event listener for pagination
 document.querySelector('.pagination').addEventListener('click', (e) => {
     e.preventDefault();
-    if (e.target.classList.contains('page-link')) {
-        const newPage = parseInt(e.target.dataset.page);
+    if (e.target.classList.contains('page-link')) { // Check if the clicked element is a page link
+        const newPage = parseInt(e.target.dataset.page); // Get the new page number from the data attribute
         if (newPage && newPage !== state.currentPage) {
             state.currentPage = newPage;
             fetchArticles();
@@ -181,14 +180,16 @@ document.querySelector('.pagination').addEventListener('click', (e) => {
     }
 });
 
+// Add event listener for sorting
 document.querySelector('.sort').addEventListener('change', (e) => {
     state.currentSort = e.target.value;
     state.currentPage = 1;
     fetchArticles();
 });
 
+// Add event listener for article detail modal
 document.getElementById('articles').addEventListener('click', (e) => {
-    const viewButton = e.target.closest('.view-article');
+    const viewButton = e.target.closest('.view-article'); 
     if (viewButton) {
         const articleId = viewButton.dataset.articleId;
         const article = state.allArticles.find(a => a.id === articleId);
@@ -198,15 +199,8 @@ document.getElementById('articles').addEventListener('click', (e) => {
     }
 });
 
-document.addEventListener('articleUpdated', (e) => {
-    const updatedArticle = e.detail;
-    if (state.allArticles) {
-        const index = state.allArticles.findIndex(a => a.id === updatedArticle.id);
-        if (index !== -1) {
-            state.allArticles[index] = updatedArticle;
-            fetchArticles(); // Re-render articles with updated data
-        }
-    }
+document.addEventListener('ArticleListModification', () => {
+    fetchArticles();
 });
 
 fetchArticles();

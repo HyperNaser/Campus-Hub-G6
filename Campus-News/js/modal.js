@@ -1,6 +1,6 @@
 import { renderComments, postComment, deleteComment, editComment } from './comments.js';
 import { deleteArticle, editArticle } from './articles.js';
-import { showError, showSuccess, formatDate } from './utils.js';
+import { showError, showSuccess} from './utils.js';
 
 export function showArticleDetail(article, baseUrl) {
     let modal = document.getElementById('articleModal');
@@ -110,6 +110,7 @@ function setupCommentHandlers(modal, article, baseUrl) {
     const commentsList = modal.querySelector('.comments-list');
     const commentForm = modal.querySelector('.comment-form');
     
+    // handle comment form submission
     commentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const textarea = commentForm.querySelector('textarea');
@@ -129,7 +130,7 @@ function setupCommentHandlers(modal, article, baseUrl) {
                     id: result.comment_id,
                     comment: comment,
                     author_name: authorName || 'Anonymous',
-                    commented_at: new Date().toISOString().slice(0, -1)
+                    commented_at: new Date().toISOString().slice(0, -1) // Remove the 'Z' to reflect how the server stores it
                 };
                 
                 if (!Array.isArray(article.comments)) {
@@ -148,7 +149,6 @@ function setupCommentHandlers(modal, article, baseUrl) {
                 showSuccess(commentForm, 'Comment posted successfully');
                 
             } catch (error) {
-                console.error('Post comment error:', error);
                 showError(modal.querySelector('.modal-body'), 'Failed to post comment');
             } finally {
                 submitButton.disabled = false;
@@ -157,11 +157,10 @@ function setupCommentHandlers(modal, article, baseUrl) {
     });
 
     // Handle comment edit
-    commentsList.addEventListener('click', async (e) => {
+    commentsList.addEventListener('click', (e) => {
         if (e.target.matches('.edit-comment')) {
             const commentId = e.target.dataset.commentId;
             const commentDiv = e.target.closest('.comment');
-            console.log('Editing comment with ID:', commentId); // Debug log
             
             const commentText = commentDiv.querySelector('.comment-text');
             const editForm = commentDiv.querySelector(`.edit-comment-form[data-comment-id="${commentId}"]`);
@@ -184,21 +183,43 @@ function setupCommentHandlers(modal, article, baseUrl) {
         if (e.target.matches('.edit-comment-form')) {
             e.preventDefault();
             const commentId = e.target.dataset.commentId;
-            console.log('Submitting edit for comment ID:', commentId); // Debug log
-            
             const textarea = e.target.querySelector('textarea');
+            const submitButton = e.target.querySelector('button[type="submit"]');
             const newText = textarea.value.trim();
             
             if (newText) {
+                submitButton.disabled = true;
+                
                 try {
                     await editComment(baseUrl, article.id, commentId, newText);
+                    
+                    // Update local comment data
+                    const commentIndex = article.comments.findIndex(c => c.id === commentId);
+                    if (commentIndex !== -1) {
+                        article.comments[commentIndex].comment = newText;
+                    }
+                    
+                    // Update UI
                     const commentText = e.target.closest('.comment').querySelector('.comment-text');
                     commentText.textContent = newText;
                     commentText.style.display = '';
                     e.target.classList.add('d-none');
+                    
+                    // Show success toast
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3';
+                    alertDiv.style.zIndex = '9999';
+                    alertDiv.innerHTML = `
+                        <strong>Success!</strong> Comment updated successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    `;
+                    document.body.appendChild(alertDiv);
+                    setTimeout(() => alertDiv.remove(), 3000);
+                    
                 } catch (error) {
-                    console.error('Edit comment error:', error); // Debug log
-                    showError(modal, 'Failed to edit comment');
+                    showError(e.target, 'Failed to edit comment');
+                } finally {
+                    submitButton.disabled = false;
                 }
             }
         }
@@ -208,7 +229,6 @@ function setupCommentHandlers(modal, article, baseUrl) {
     commentsList.addEventListener('click', async (e) => {
         if (e.target.matches('.delete-comment')) {
             const commentId = e.target.dataset.commentId;
-            console.log('Deleting comment with ID:', commentId); // Debug log
             
             if (confirm('Are you sure you want to delete this comment?')) {
                 try {
@@ -223,7 +243,6 @@ function setupCommentHandlers(modal, article, baseUrl) {
                         commentsList.innerHTML = renderComments([]);
                     }
                 } catch (error) {
-                    console.error('Delete comment error:', error); // Debug log
                     showError(modal, 'Failed to delete comment');
                 }
             }
@@ -233,11 +252,7 @@ function setupCommentHandlers(modal, article, baseUrl) {
 
 function setupArticleHandlers(modal, article, baseUrl) {
     const editForm = modal.querySelector('.edit-article-form');
-    const modalBody = modal.querySelector('.modal-body');
     const articleSection = modal.querySelector('.article-content').parentElement;
-    
-    // Ensure modal body is visible
-    modalBody.style.display = 'block';
     
     // Edit button handler
     const editButton = modal.querySelector('.article-header .edit-article');
@@ -261,8 +276,6 @@ function setupArticleHandlers(modal, article, baseUrl) {
 
         try {
             const articleData = {
-                type: 'edit_article',
-                news_id: article.id,
                 title: formData.get('title'),
                 category: formData.get('category'),
                 summary: formData.get('summary'),
@@ -271,33 +284,23 @@ function setupArticleHandlers(modal, article, baseUrl) {
 
             await editArticle(baseUrl, article.id, articleData);
 
-            // Update local article data
-            Object.assign(article, {
-                title: articleData.title,
-                category: articleData.category,
-                summary: articleData.summary,
-                content: articleData.content
-            });
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance.hide();
 
-            // Update UI - only update the article content section
-            modal.querySelector('.modal-title').textContent = article.title;
-            const articleHeader = articleSection.querySelector('.article-header');
-            articleHeader.querySelector('.badge').textContent = article.category;
-            articleSection.querySelector('.lead').textContent = article.summary;
-            articleSection.querySelector('.article-content').textContent = article.content;
+            // Create and show success toast/alert
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.innerHTML = `
+                <strong>Success!</strong> Article updated successfully.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alertDiv);
             
-            // Show success message
-            showSuccess(modal.querySelector('.modal-body'), 'Article updated successfully');
-
-            // Reset view
-            articleSection.style.display = 'block';
-            editForm.style.display = 'none';
-            editForm.classList.add('d-none');
-
-            // Dispatch custom event to update article list
-            document.dispatchEvent(new CustomEvent('articleUpdated', { 
-                detail: article 
-            }));
+            // Auto-remove after 3 seconds
+            setTimeout(() => alertDiv.remove(), 3000);
+            
+            document.dispatchEvent(new CustomEvent('ArticleListModification')); // Custom event to refresh the article list
 
         } catch (error) {
             showError(editForm, 'Failed to update article');
@@ -339,10 +342,8 @@ function setupArticleHandlers(modal, article, baseUrl) {
                 await deleteArticle(baseUrl, article.id);
                 confirmInstance.hide();
                 modal.querySelector('[data-bs-dismiss="modal"]').click();
-                // Refresh the page to show updated article list
-                window.location.reload();
+                document.dispatchEvent(new CustomEvent('ArticleListModification')); // Custom event to refresh the article list
             } catch (error) {
-                showError(modal, 'Failed to delete article');
                 console.error('Delete error:', error);
             }
         });
