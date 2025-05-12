@@ -58,7 +58,7 @@ export function renderComment(comment) {
     `;
 }
 
-export async function deleteComment(baseUrl, articleId, commentId) {
+export async function deleteComment(baseUrl, commentId) {
     const response = await fetch(baseUrl, {
         method: 'POST',
         headers: {
@@ -74,7 +74,7 @@ export async function deleteComment(baseUrl, articleId, commentId) {
     return response.json();
 }
 
-export async function editComment(baseUrl, articleId, commentId, newText) {
+export async function editComment(baseUrl, commentId, newText) {
     const response = await fetch(baseUrl, {
         method: 'POST',
         headers: {

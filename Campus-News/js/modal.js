@@ -191,7 +191,7 @@ function setupCommentHandlers(modal, article, baseUrl) {
                 submitButton.disabled = true;
                 
                 try {
-                    await editComment(baseUrl, article.id, commentId, newText);
+                    await editComment(baseUrl, commentId, newText);
                     
                     // Update local comment data
                     const commentIndex = article.comments.findIndex(c => c.id === commentId);
@@ -232,7 +232,7 @@ function setupCommentHandlers(modal, article, baseUrl) {
             
             if (confirm('Are you sure you want to delete this comment?')) {
                 try {
-                    await deleteComment(baseUrl, article.id, commentId);
+                    await deleteComment(baseUrl, commentId);
                     e.target.closest('.comment').remove();
                     
                     // Update comments array
