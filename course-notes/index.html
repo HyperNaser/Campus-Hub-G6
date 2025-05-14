@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Course Notes | Campus Hub</title>
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.10/css/pico.min.css" />
-  <script src="main.js" defer></script>
 </head>
 <body>
   <header class="container">
@@ -16,14 +15,11 @@
   </header>
 
   <main class="container">
-
-    <form>
+    <form onsubmit="return false;">
       <div class="grid">
         <input type="search" name="search" placeholder="Search notes..." />
         <select name="filter">
           <option>All Courses</option>
-          <option>CS101</option>
-          <option>MATH202</option>
         </select>
         <select name="sort">
           <option>Newest First</option>
@@ -33,37 +29,18 @@
     </form>
 
     <section>
-      <article>
-        <h3><a href="detail.html">Data Structures Summary</a></h3>
-        <p><strong>Course:</strong> CS201</p>
-        <p>A condensed overview of sorting algorithms and trees.</p>
-        <small>Uploaded: March 10, 2025</small>
-      </article>
-
-      <hr />
-
-      <article>
-        <h3><a href="detail.html">Linear Algebra Notes</a></h3>
-        <p><strong>Course:</strong> MATH203</p>
-        <p>All the theorems and matrix tricks you'll need!</p>
-        <small>Uploaded: March 5, 2025</small>
-      </article>
-
     </section>
 
     <nav aria-label="Pagination">
       <ul class="pagination">
-        <li><a href="#" class="secondary">Prev</a></li>
-        <li><a href="#" class="contrast">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">Next</a></li>
       </ul>
     </nav>
-
   </main>
 
   <footer class="container">
     <small>2025 Campus Hub</small>
   </footer>
+
+  <script src="js/main.js"></script>
 </body>
 </html>

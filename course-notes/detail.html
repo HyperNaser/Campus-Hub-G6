@@ -6,7 +6,6 @@
   <title>Note Details | Campus Hub</title>
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.10/css/pico.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
-  <script src="detail.js" defer></script>
 </head>
 <body>
   <header class="container">
@@ -18,20 +17,6 @@
 
   <main class="container">
     <article>
-      <h2>Midterm Review: Data Structures</h2>
-      <p><strong>Course:</strong> CS201</p>
-      <p><strong>Uploaded:</strong> March 10, 2025</p>
-
-      <p>
-        This note covers linked lists, trees, and basic sorting algorithms. Includes practice problems and visual diagrams.
-      </p>
-
-      <p><strong>Tags:</strong> data structures, cs201, review</p>
-
-      <div class="grid">
-        <a href="new.html" role="button">Edit</a>
-        <button class="secondary" disabled>Delete</button>
-      </div>
     </article>
 
     <hr />
@@ -40,25 +25,20 @@
       <h3>Comments</h3>
 
       <form>
-        <label for="comment">Leave a comment</label>
-        <textarea id="comment" rows="3" placeholder="Write your comment..." disabled></textarea>
-        <button type="submit" disabled>Post Comment</button>
-      </form>
+      <label for="comment">Leave a comment</label>
+      <textarea id="comment" rows="3" placeholder="Write your comment..." disabled></textarea>
+      <button type="submit" disabled>Post Comment</button>
+    </form>
 
-      <article>
-        <p><strong>Alice</strong> · March 12, 2025</p>
-        <p>Thanks for this summary, it really helped me prep!</p>
-      </article>
+    <div id="comments"></div>
 
-      <article>
-        <p><strong>Bob</strong> · March 13, 2025</p>
-        <p>Would love to see more visuals in future notes</p>
-      </article>
     </section>
   </main>
 
   <footer class="container">
     <small>2025 Campus Hub</small>
   </footer>
+
+  <script src="./js/detail.js"></script>
 </body>
 </html>
