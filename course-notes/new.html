@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add New Note | Campus Hub</title>
+  <title>Note Form | Campus Hub</title>
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.5.10/css/pico.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
-  <script src="new.js" defer></script>
   <style>
     main.container {
       display: flex;
@@ -23,7 +22,7 @@
 </head>
 <body>
   <header class="container">
-    <h1>Add New Course Note</h1>
+    <h1 id="formTitle">Note</h1>
     <nav>
       <a href="index.html">← Back to Notes</a>
     </nav>
@@ -32,24 +31,20 @@
   <main class="container">
     <form>
 
+      <input type="hidden" id="noteId" />
+
       <label for="title">Note Title <span style="color: red;">*</span></label>
-      <input type="text" id="title" name="title" placeholder="e.g., Midterm Review for CS101" required />
+      <input type="text" id="title" name="title" required />
 
       <label for="course">Course Code <span style="color: red;">*</span></label>
-      <input type="text" id="course" name="course" placeholder="e.g., CS101" required pattern="[A-Z]{2,4}[0-9]{3}" />
+      <input type="text" id="course" name="course" required pattern="[A-Z]{2,4}[0-9]{3}" />
 
       <label for="description">Description</label>
-      <textarea id="description" name="description" rows="5" placeholder="Give a brief overview of the note contents..."></textarea>
-
-      <label for="file-upload">Upload File</label>
-      <input type="file" id="file-upload" name="file" disabled />
-
-      <label for="tags">Tags</label>
-      <input type="text" id="tags" name="tags" placeholder="e.g., math, revision, midterm" disabled />
+      <textarea id="description" name="description" rows="5"></textarea>
 
       <div class="grid">
         <button type="submit">Submit</button>
-        <button>Cancel</button>
+        <button type="reset">Reset</button>
       </div>
 
     </form>
@@ -58,5 +53,7 @@
   <footer class="container">
     <small>2025 Campus Hub</small>
   </footer>
+
+  <script src="js/new.js"></script>
 </body>
 </html>
