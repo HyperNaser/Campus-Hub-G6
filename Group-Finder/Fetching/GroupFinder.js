@@ -1,5 +1,7 @@
+// https://replit.com/@MohammedAl-yafe/my-app 
+
 document.addEventListener('DOMContentLoaded', () => {
-  const API_URL = 'https://jsonplaceholder.typicode.com/users';
+  const API_URL = 'https://89fe4ede-fc38-499b-8eaf-08b61c5fcdf6-00-68x2lokwpq5m.spock.replit.dev/groups/get.php';
   const groupSection = document.querySelector('.group-cards');
   const searchInput = document.createElement('input');
   searchInput.classList.add("input-design")
